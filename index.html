@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="store">
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div class="text-center main-div" ng-controller="StoreController as store">
+		<h1 class="main-header">My Gem Store</h1>
+		<div ng-repeat="product in store.products | orderBy: '+price'">
+			<section ng-init="tab = 1">
+		<ul class="nav nav-pills tabs">
+			<li ng-class="{active:tab === 1}">
+				<a href ng-click="tab = 1">Name</a>
+			</li>
+			<li ng-class="{active:tab === 2}"  >
+				<a href ng-click="tab = 2">Price</a>
+			</li>
+			<li ng-class="{active:tab === 3}"  >
+				<a href ng-click="tab = 3">Description</a>
+			</li>
+		</ul>
+		</section>
+			<img ng-src="{{product.img}}">
+			<p ng-show="tab === 1">{{product.name}}</p>
+			<p ng-show="tab === 2">Price: {{product.price | currency}}</p>
+			<p ng-show="tab === 3">{{product.description}}</p>
+			<!-- <button ng-show="product.available">Purchase!</button> -->
+		</div>
+		
+	</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
