@@ -14,3 +14,7 @@ body {
 	display: inline-block;
 	background: #E8DEA6;
 }
+.info-div {
+    width: 500px;
+    margin: 0 auto;
+}

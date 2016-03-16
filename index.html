@@ -21,13 +21,25 @@
 						<li ng-class="{active:  panel.isSelected(3)}"  >
 							<a href ng-click="panel.selectTab(3)">Description</a>
 						</li>
+						<li ng-class="{active:  panel.isSelected(4)}"  >
+							<a href ng-click="panel.selectTab(4)">Reviews</a>
+						</li>
 					</ul>
 				</section>
-				<img ng-src="{{product.img}}">
-				<p ng-show="panel.isSelected(1)">{{product.name}}</p>
-				<p ng-show="panel.isSelected(2)">Price: {{product.price | currency}}</p>
-				<p ng-show="panel.isSelected(3)">{{product.description}}</p>
-				<!-- <button ng-show="product.available">Purchase!</button> -->
+				<div class="row info-div">
+					<div class="col-md-6 text-center">
+					<img ng-src="{{product.img}}">
+					<p ng-show="panel.isSelected(1)">{{product.name}}</p>
+					<p ng-show="panel.isSelected(2)">Price: {{product.price | currency}}</p>
+					<p ng-show="panel.isSelected(3)">{{product.description}}</p>
+					<!-- <button ng-show="product.available">Purchase!</button> -->
+					</div>
+					<div class="col-md-6" ng-controller="ReviewsController as ReviewsCtrl">
+						<p ng-show="panel.isSelected(4)">  
+							{{ReviewsCtrl.averageReviews(product.reviews)}}				
+						</p>
+				  </div>
+				</div>
 			</div>	
 		</div>
 	</div>
