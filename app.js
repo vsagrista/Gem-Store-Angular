@@ -11,20 +11,44 @@
     this.isSelected = function(checkTab) {
       return this.tab === checkTab;
     }
+    this.showReviews = function(product) {
+    	console.log("showReviews fired, product: ", product)
+    	product.displayReviews = true;
+    }
+   //  this.showReviewBtn = function () {
+   //  	var addReviewBtn = document.getElementById('reviewBtn');
+    	
+
+   //  	//console.log(document.getElementById('reviewBtn'))
+  	// 	//document.getElementById('reviewBtn').removeClass('hidden');
+  	// }
   });
   app.controller('ReviewsController', function() {
+
+
+  	this.getProductReviews = function (products, index) {
+  		return products[index].reviews;
+  	}
+  	
+  	
   	this.averageReviews = function (reviews) {
   		var reviewCount = reviews.length;
   		var totalStars = reviews.reduce(function(a, b) { return {stars: a.stars + b.stars} }).stars;
-  		return Math.round(totalStars / reviewCount);
+  		return Math.round(totalStars / reviewCount) + ' out of ' + reviewCount + ' reviews.';
+  	}
+
+  	this.addReview = function (stars, comments, user) {
+  		
   	}
   })
+
   var gems = [{
     name: 'Ruby',
     price: 20,
     description: 'A beautiful gem that is also the name of a cool programming language',
     available: true,
-    img: 'http://techdire.com/wtp-content/uploads/2014/04/ruby_techdire1.png',
+    img: 'https://cdn2.iconfinder.com/data/icons/business-finance-material-flat-design/24/Diamond-128.png',
+    displayReviews: false,
     reviews: [{
       stars: 5,
       comments: 'This is a really pretty gem',
@@ -43,6 +67,7 @@
     price: 90,
     description: 'Powerful and beautiful gem, able to cut almost anything.',
     img: 'http://diamondgirlconsulting.com/wp-content/uploads/2012/09/1348837205_315.png',
+    displayReviews: false,
     reviews: [{
       stars: 3,
       comments: 'Boring gem',
@@ -57,10 +82,11 @@
       user: 'Phil Morris'
     }]
   }, {
-    name: 'Sapphire',
-    price: 50,
-    description: 'Another beautiful gem, this one found in many colors',
-    img: 'http://icons.iconarchive.com/icons/aha-soft/jewelry/128/Sapphire-icon.png',
+    name: 'Everything Gem',
+    price: 250,
+    description: 'The most special, has it all!',
+    img: 'https://cdn3.iconfinder.com/data/icons/finance-volume-3-1/48/145-128.png',
+    displayReviews: false,
     reviews: [{
       stars: 3,
       comments: 'Boring gem',

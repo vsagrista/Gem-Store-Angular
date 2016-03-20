@@ -1,50 +1,88 @@
 <!DOCTYPE html>
 <html ng-app="store">
-<head>
-	<title></title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body ng-controller="StoreController as store">
-	<div class="text-center main-div" >
-		<h1 class="main-header">My Gem Store</h1>
-		<div ng-repeat="product in store.products | orderBy: '+price'">
-			<div ng-controller="PanelController as panel">
-				<section>
-					<ul class="nav nav-pills tabs" >
-						<li ng-class="{active: panel.isSelected(1)}">
-							<a href ng-click="panel.selectTab(1)">Name</a>
-						</li>
-						<li ng-class="{active:  panel.isSelected(2)}"  >
-							<a href ng-click="panel.selectTab(2)">Price</a>
-						</li>
-						<li ng-class="{active:  panel.isSelected(3)}"  >
-							<a href ng-click="panel.selectTab(3)">Description</a>
-						</li>
-						<li ng-class="{active:  panel.isSelected(4)}"  >
-							<a href ng-click="panel.selectTab(4)">Reviews</a>
-						</li>
-					</ul>
-				</section>
-				<div class="row info-div">
-					<div class="col-md-6 text-center">
-					<img ng-src="{{product.img}}">
-					<p ng-show="panel.isSelected(1)">{{product.name}}</p>
-					<p ng-show="panel.isSelected(2)">Price: {{product.price | currency}}</p>
-					<p ng-show="panel.isSelected(3)">{{product.description}}</p>
-					<!-- <button ng-show="product.available">Purchase!</button> -->
-					</div>
-					<div class="col-md-6" ng-controller="ReviewsController as ReviewsCtrl">
-						<p ng-show="panel.isSelected(4)">  
-							{{ReviewsCtrl.averageReviews(product.reviews)}}				
-						</p>
-				  </div>
-				</div>
-			</div>	
-		</div>
-	</div>
+	<head>
+		<title></title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body ng-controller="StoreController as store">
+		<div class="row main-row" ng-controller="ReviewsController as ReviewsCtrl">
+			<div class="col-md-3 reviews-display-container">
+				<div class="reviews-display" ng-repeat="product in store.products">
+					<p ng-show="product.displayReviews">Reviews: {{product.reviews}}</p>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-	<script type="text/javascript" src="app.js"></script>
-</body>
+				</div>
+				
+
+
+
+
+			</div>
+			<div class="text-center main-div col-md-6" >
+				<h1 class="main-header">My Gem Store</h1>
+				<div ng-repeat="product in store.products | orderBy: '+price'">
+					<div class="panel-div" ng-controller="PanelController as panel">
+						<section>
+							<ul class="nav nav-pills tabs tabs-bar" >
+								<li ng-class="{active: panel.isSelected(1)}">
+									<a href ng-click="panel.selectTab(1)">Name</a>
+								</li>
+								<li ng-class="{active:  panel.isSelected(2)}"  >
+									<a href ng-click="panel.selectTab(2)">Price</a>
+								</li>
+								<li ng-class="{active:  panel.isSelected(3)}"  >
+									<a href ng-click="panel.selectTab(3)">Description</a>
+								</li>
+								<li ng-class="{active:  panel.isSelected(4)}"  >
+									<a href ng-click="panel.selectTab(4); panel.showReviews(product)">Reviews</a>
+								</li>
+							</ul>
+						</section>
+						<div class="row gem-div">
+							<div class="col-md-6 text-center">
+								<img ng-src="{{product.img}}">
+								<!-- <button ng-show="product.available">Purchase!</button> -->
+							</div>
+							<div class="col-md-6 info-div" > 
+								<p class="info-p" ng-show="panel.isSelected(1)"><span class="field">Name: </span>{{product.name}}</p>
+								<p class="info-p" ng-show="panel.isSelected(2)"><span class="field">Price:</span> {{product.price | currency}}</p>
+								<p class="info-p" ng-show="panel.isSelected(3)"><span class="field">Product: </span>{{product.description}}</p>
+								<p class="info-p" ng-show="panel.isSelected(4)">
+									<span class="field">Score:</span>{{ReviewsCtrl.averageReviews(product.reviews)}}
+								</p>
+								<a ng-show="panel.isSelected(4)" class="btn btn-success" href class="btn btn-primary" ng-click="ReviewsCtrl.addReview(product)">Add a review</a>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+			<div class="form-div" ng-controller="ReviewsController as ReviewsCtrl">
+									<form class="review-form">
+										<div class="current-review">
+											<p id="current-review">Stars: {{ReviewsCtrl.getProductReviews(store.products, 1)}}
+											</p>
+
+									<!-- 			{{ReviewsCtrl.review.stars}},
+												Comments: {{ReviewsCtrl.review.comments}},
+												User: {{ReviewsCtrl.review.user}}
+											</p>
+										</div>
+										<select ng-model="ReviewsCtrl.review.stars" ng-options="stars for stars in [5,4,3,2,1]" title="Stars">
+											<option value="">Rate it
+											</option>
+										</select>
+										<textarea ng-model="ReviewsCtrl.review.comments" placeholder="Write a comment">
+										</textarea>
+										<textarea ng-model="ReviewsCtrl.review.user" placeholder="@email">
+										</textarea> -->
+									</form>
+								</div>	
+			</div>
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+
+		<script type="text/javascript" src="app.js"></script>
+	</body>
 </html>
