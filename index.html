@@ -8,15 +8,13 @@
 	<body ng-controller="StoreController as store">
 		<div class="row main-row" ng-controller="ReviewsController as ReviewsCtrl">
 			<div class="col-md-3 reviews-display-container">
-				<div class="reviews-display" ng-repeat="product in store.products">
-					<p ng-show="product.displayReviews">Reviews: {{product.reviews}}</p>
-
+				<div class="reviews-display" ng-repeat="product in store.products | orderBy: '+product.stars'">
+					<h2  ng-show="product.displayReviews" class="individual-review-h2 animate">Reviews</h2>
+					<p id="individual-review" ng-class="product.displayReviews ? 'animate' : 'hidden'" ng-repeat="review in product.reviews">
+						Review by: {{review.user}} <br>
+						Rating: {{review.stars}} <br>
+					Comments: {{review.comments}}</p>
 				</div>
-				
-
-
-
-
 			</div>
 			<div class="text-center main-div col-md-6" >
 				<h1 class="main-header">My Gem Store</h1>
@@ -25,16 +23,16 @@
 						<section>
 							<ul class="nav nav-pills tabs tabs-bar" >
 								<li ng-class="{active: panel.isSelected(1)}">
-									<a href ng-click="panel.selectTab(1)">Name</a>
+									<a href ng-click="panel.selectTab(1, store.products)">Name</a>
 								</li>
 								<li ng-class="{active:  panel.isSelected(2)}"  >
-									<a href ng-click="panel.selectTab(2)">Price</a>
+									<a href ng-click="panel.selectTab(2, store.products)">Price</a>
 								</li>
 								<li ng-class="{active:  panel.isSelected(3)}"  >
-									<a href ng-click="panel.selectTab(3)">Description</a>
+									<a href ng-click="panel.selectTab(3, store.products)">Description</a>
 								</li>
 								<li ng-class="{active:  panel.isSelected(4)}"  >
-									<a href ng-click="panel.selectTab(4); panel.showReviews(product)">Reviews</a>
+									<a href ng-click="panel.selectTab(4, store.products); panel.showReviews(product)">Reviews</a>
 								</li>
 							</ul>
 						</section>
@@ -43,46 +41,44 @@
 								<img ng-src="{{product.img}}">
 								<!-- <button ng-show="product.available">Purchase!</button> -->
 							</div>
-							<div class="col-md-6 info-div" > 
+							<div class="col-md-6 info-div" >
 								<p class="info-p" ng-show="panel.isSelected(1)"><span class="field">Name: </span>{{product.name}}</p>
 								<p class="info-p" ng-show="panel.isSelected(2)"><span class="field">Price:</span> {{product.price | currency}}</p>
 								<p class="info-p" ng-show="panel.isSelected(3)"><span class="field">Product: </span>{{product.description}}</p>
 								<p class="info-p" ng-show="panel.isSelected(4)">
 									<span class="field">Score:</span>{{ReviewsCtrl.averageReviews(product.reviews)}}
 								</p>
-								<a ng-show="panel.isSelected(4)" class="btn btn-success" href class="btn btn-primary" ng-click="ReviewsCtrl.addReview(product)">Add a review</a>	
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-3">
-			<div class="form-div" ng-controller="ReviewsController as ReviewsCtrl">
-									<form class="review-form">
-										<div class="current-review">
-											<p id="current-review">Stars: {{ReviewsCtrl.getProductReviews(store.products, 1)}}
-											</p>
-
-									<!-- 			{{ReviewsCtrl.review.stars}},
-												Comments: {{ReviewsCtrl.review.comments}},
-												User: {{ReviewsCtrl.review.user}}
-											</p>
-										</div>
-										<select ng-model="ReviewsCtrl.review.stars" ng-options="stars for stars in [5,4,3,2,1]" title="Stars">
-											<option value="">Rate it
-											</option>
-										</select>
-										<textarea ng-model="ReviewsCtrl.review.comments" placeholder="Write a comment">
-										</textarea>
-										<textarea ng-model="ReviewsCtrl.review.user" placeholder="@email">
-										</textarea> -->
-									</form>
-								</div>	
+				<div class="form-div" ng-controller="ReviewsController as ReviewsCtrl">
+					<form class="review-form">
+						<div class="current-review">
+							<h2 class="individual-review-h2 animate">Add a Review</h2>
+							<p id="current-review">		
+								Stars: {{ReviewsCtrl.review.stars}},
+								Comments: {{ReviewsCtrl.review.comments}},
+								User: {{ReviewsCtrl.review.user}}
+							</p>
+						</p>
+					</div>
+					<select class="form-input" ng-model="ReviewsCtrl.review.stars" ng-options="stars for stars in [5,4,3,2,1]" title="Stars">
+						<option value="">Rate it
+						</option>
+					</select>
+					<textarea class="form-input" ng-model="ReviewsCtrl.review.user" placeholder="@email">
+					</textarea>
+					<textarea class="form-input text-input" ng-model="ReviewsCtrl.review.comments" placeholder="Write a comment">
+					</textarea>
+					<a class="btn btn-success" href class="btn btn-primary" ng-click="ReviewsCtrl.addReview(product)">Add a review</a>
+				</form>
 			</div>
 		</div>
-
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-
-		<script type="text/javascript" src="app.js"></script>
-	</body>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+</body>
 </html>

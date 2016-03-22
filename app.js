@@ -5,38 +5,33 @@
   });
   app.controller('PanelController', function() {
     this.tab = 1;
-    this.selectTab = function(number) {
+    this.selectTab = function(number, products) {
+    	this.hideNonSelectedReviews(products);
       this.tab = number;
     }
     this.isSelected = function(checkTab) {
       return this.tab === checkTab;
     }
+    this.hideNonSelectedReviews = function (products) {
+    	for (var i = 0; i < products.length; i++ ){
+    		products[i].displayReviews = false;
+    	}
+    }
     this.showReviews = function(product) {
-    	console.log("showReviews fired, product: ", product)
     	product.displayReviews = true;
     }
-   //  this.showReviewBtn = function () {
-   //  	var addReviewBtn = document.getElementById('reviewBtn');
-    	
-
-   //  	//console.log(document.getElementById('reviewBtn'))
-  	// 	//document.getElementById('reviewBtn').removeClass('hidden');
-  	// }
   });
+
   app.controller('ReviewsController', function() {
-
-
+  	this.review = {stars:'', comments:'',user:''}
   	this.getProductReviews = function (products, index) {
   		return products[index].reviews;
-  	}
-  	
-  	
+  	}	
   	this.averageReviews = function (reviews) {
   		var reviewCount = reviews.length;
   		var totalStars = reviews.reduce(function(a, b) { return {stars: a.stars + b.stars} }).stars;
   		return Math.round(totalStars / reviewCount) + ' out of ' + reviewCount + ' reviews.';
   	}
-
   	this.addReview = function (stars, comments, user) {
   		
   	}

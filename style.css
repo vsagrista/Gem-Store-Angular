@@ -6,7 +6,7 @@ html, body {
     align-items: center;
     justify-content: center;
 }
-p {
+.individual-review-h2, p {
     color: white;
 }
 .main-row {
@@ -26,7 +26,7 @@ p {
     background: lightseagreen;
 }
 .reviews-display-container {
-    border: 2px solid blue;
+    /*border: 2px solid blue;*/
 }
 .reviews-display > p {
     background: white;
@@ -67,3 +67,66 @@ p {
     color: red;
     display: block;
 }
+
+.form-input {
+    width: 100%;
+}
+.text-input {
+    height: 300px;
+}
+
+.animate {
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 1s; /* Firefox < 16 */
+        -ms-animation: fadein 1s; /* Internet Explorer */
+         -o-animation: fadein 1s; /* Opera < 12.1 */
+            animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
